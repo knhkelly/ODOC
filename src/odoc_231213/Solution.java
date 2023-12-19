@@ -13,12 +13,12 @@ class Solution {
                 try{
                     checkH = h + dh[i];
                     checkW = w + dw[i];
-                    if(board[h][w] == board[checkH][checkW]){count++;}
+                    if(board[h][w].equals(board[checkH][checkW])){count++;}
                 } catch(Exception e){continue;}
-                finally {answer = count;}
+                
             }
-            
-        
+        answer = count;
+      
         return answer;
     }
 }
