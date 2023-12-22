@@ -1,44 +1,36 @@
 package odoc_231221;
 
+import java.util.*;
+
 class Solution {
     public int[] solution(String[] keymap, String[] targets) {
         int[] answer = new int[targets.length];
         
-        int count = 0;
         int n = 0;
         
-        
-        
         for(String str:targets) {
-        	System.out.println("str : " + str);
         	
         	int fullcount = 0;
         	for(int j=0; j<str.length(); j++) {
-        		int countBefore = keymap[targets.length-1].length()-1;
+        		List<Integer> count = new ArrayList<>();
         		for(int i=0; i<keymap.length; i++) {
-	        		System.out.println("str.charAt("+j+") : " + str.charAt(j));
-	        		count = keymap[i].indexOf(str.charAt(j));
-	        		
-	        		System.out.println("count : " + count);
-	        			
-	        		if(count == -1 && i == 0 && i == keymap.length-1) { countBefore = 0; continue; }
-	        		else if(count == -1) { continue; }
-	        		else if(count <= countBefore) {
-	        			countBefore = count;
-	        		}
-	        		
+        			int click = keymap[i].indexOf(str.charAt(j));
+        			if(click != -1) { count.add(click); }
 	        	}
-        		System.out.println("countBefore : " + countBefore);
-        		fullcount = fullcount + countBefore + 1;
-        		System.out.println("fullcount : " + fullcount);
-        	}
-        	if(fullcount == 1) answer[n] = -1;
-    		else answer[n] = fullcount;
-        	n++;
-        	System.out.println("fullcount : " + fullcount);
+        		Collections.sort(count);
+        		
+        		if(count.isEmpty()) { 
+        			answer[n] = -1;
+        			n++;
+        			j = str.length();
+        		} else { 
+        			fullcount = fullcount + count.get(0) + 1;
+        			answer[n] = fullcount;
+        			if(j==str.length()-1)n++;
+        		}
+        		
+	        }
         }
-        
-        
         return answer;
     }
 }
