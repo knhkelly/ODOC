@@ -8,29 +8,27 @@ public class Solution {
 		List<int[]> mapPoint = new ArrayList<int[]>();
 		int lineCount = 0;
 		int dayLength = 0;
+//		for(int line=0; line<maps.length; line++) {
+//				for(int movePoint=0; movePoint<maps[line].length(); movePoint++) {
+//					char food = maps[line].charAt(movePoint);
+//					if(food!='X') {
+//						if(dayLength==0) dayLength = Character.getNumericValue(food);
+//					}
+//				}
+//			
+//			
+//		}
+		
 		for(String line:maps) {
-			int[] movePoint = {lineCount, 0};
-			if(lineCount==0 || lineCount%2==0) {
-				for(int i=0; i<line.length(); i++) {
-					char food = line.charAt(i);
-					if(food!='X') {
-						if(dayLength==0) {
-							dayLength = Character.getNumericValue(food);
-							movePoint[1] = i;
-						} else if(lineCount==movePoint[0]&&i==movePoint[1]+1) {
-							dayLength += Character.getNumericValue(food);
-						}
-					}
-				}
-			} else {
-				for(int i=line.length()-1; i==0; i--) {
-					char food = line.charAt(i);
-					if(food!='X') {
-						
-					}
+			for(int movePoint=0; movePoint<line.length(); movePoint++) {
+				char food = line.charAt(movePoint);
+				if(food!='X') {
+					if(dayLength==0) dayLength = Character.getNumericValue(food);
+					else if(line.charAt(movePoint)-1!='X') {dayLength+=Character.getNumericValue(food);}
 				}
 			}
-			
+		
+		
 		}
 		
         int[] answer = {};
