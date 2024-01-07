@@ -1,0 +1,11 @@
+SELECT A.FLAVOR FROM first_half AS A 
+JOIN ICECREAM_INFO AS B 
+ON A.FLAVOR = B.FLAVOR
+WHERE A.TOTAL_ORDER > 3000 AND B.INGREDIENT_TYPE = "fruit_based" 
+ORDER BY TOTAL_ORDER DESC
+
+SELECT 기준테이블 AS 기준테이블별칭
+JOIN 조인테이블 AS 조인테이블별칭
+ON 기준테이블 컬럼 = 조인테이블 컬럼
+WHERE 기준테이블에서 추린 조건 AND 조인테이블에서 추린 조건
+ORDER BY 나열 순서
