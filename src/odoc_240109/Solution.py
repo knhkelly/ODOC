@@ -4,20 +4,15 @@ def solution(elements):
     index = 0
     for i in range(len(elements)):
         for count in range(len(elements)):
-            slice.append(elements[index])
-            print("slice")
-            print(slice)
-            index += 1
-            # index 값을 추가하지 않는 경우가 있다! 이걸 어떻게 계산하지?
-            if(index >= len(elements)):
-                index = 0
-            if len(slice) == i+1:
-                sumList.append(sum(slice))
+            if(count + index >= len(elements)):
+                index -= len(elements)
+            slice.append(elements[count+index])
+            sumList.append(sum(slice))
+            if(len(slice)==len(elements)):
                 slice.clear()
+        index += 1
 
-
-    print("sumList")
-    print(sumList)
+    sumList = list(set(sumList))
     answer = len(sumList)
     return answer
 
