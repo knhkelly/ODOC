@@ -1,12 +1,7 @@
 package odoc_240304;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.text.*;
+import java.util.*;
 
 public class Solution {
 	public int[] solution(int[] fees, String[] records) {
@@ -18,7 +13,7 @@ public class Solution {
         
         List<int[]> carList = new ArrayList<int[]>();
         while(list.size()>0) {
-        	carList.add(feeCal(list));
+        	carList.add(feeCal(fees, list));
         }
         
         Collections.sort(carList, new Comparator<int[]>() {
@@ -36,14 +31,15 @@ public class Solution {
         return answer;
     }
 	
-	public int[] feeCal (List<String[]> list) {
+	public int[] feeCal (int[] fees, List<String[]> list) {
 		int count = list.size();
 		String carNum = list.get(0)[1];
 		
+		//같은 차번호 데이터만 빼내서 분류
 		List<String[]> carData = new ArrayList<String[]>();
 		for(int i=count-1; i>=0; i--) {
 			if(list.get(i)[1].equals(carNum)) {
-				carData.add(list.get(i));
+				carData.add(0, list.get(i));
 				list.remove(i);
 			}
 		}
@@ -59,10 +55,11 @@ public class Solution {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		int parkTime = 0; 
-		for(int i=0; i<carData.size(); i+=2) {
+		count = carData.size();
+		for(int i=0; i<count; i+=2) {
 			String in;
 			String out;
-			if(carData.size()%2==1 && i==carData.size()-1) {
+			if(count%2==1 && i==count-1) {
 				in = carData.get(i)[0];
 				out = "23:59";
 			} else {
@@ -77,6 +74,7 @@ public class Solution {
 				long timeMil1 = time1.getTime();
 				long timeMil2 = time2.getTime();
 				//입차 계산(분단위) //왜 여기서 0000번만 빼고 시간이 마이너스 대로 나오지?
+				//처음부터 거꾸로 담았기 때문에!!!
 				long diff = (timeMil2 - timeMil1) / (1000*60);
 				parkTime += diff;
 			} catch (ParseException e) {
@@ -84,19 +82,20 @@ public class Solution {
 			}
 		}
 		
-		System.out.println("carNum" + carNum);
-		System.out.println(parkTime);
+//		System.out.println("carNum" + carNum);
+//		System.out.println(parkTime);
 		
 		int fee = 0;
-		if(parkTime<=180) {
-			fee = 5000;
+		if(parkTime<=fees[0]) {
+			fee = fees[1];
 		} else {
-			fee = 5000 + (parkTime-180)/10*600;
+			int plusTime =  (int) Math.ceil(((double)parkTime-fees[0])/fees[2]);
+			fee = fees[1] + plusTime*fees[3];
 		}
 		
 		int carNumInt = Integer.parseInt(carNum);
 		int[] carFee = {carNumInt, fee};
-		System.out.println(carFee[1]);
+//		System.out.println(carFee[1]);
 		
 		return carFee;
 	}
